@@ -1,30 +1,35 @@
-import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import React, {useLayoutEffect} from 'react';
+
 import {useAuth} from '../../contexts/auth';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-  },
-});
+import {Container, Title, Button, TextButton} from './styles';
 
-const Dashboard: React.FC = () => {
+type Props = {
+  navigation: StackNavigationProp<any, any>;
+};
+
+const Dashboard: React.FC<Props> = ({navigation}) => {
   const {signOut} = useAuth();
 
   function handleSignOut() {
     signOut();
   }
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={handleSignOut}>
+          <TextButton>Sair</TextButton>
+        </Button>
+      ),
+    });
+  }, [navigation]);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Logado</Text>
-      <Button title="Sign Out" onPress={handleSignOut} />
-    </View>
+    <Container>
+      <Title>Bem Vindo</Title>
+    </Container>
   );
 };
 

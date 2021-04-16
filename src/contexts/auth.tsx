@@ -6,7 +6,7 @@ interface AuthContextData {
   signed: boolean;
   token: string | null;
   loading: boolean;
-  signIn(): Promise<void>;
+  signIn(data: auth.SignInRequest): Promise<void>;
   signOut(): void;
 }
 
@@ -28,7 +28,7 @@ const AuthProvider: React.FC = ({children}) => {
     }
 
     loadStorageData();
-  });
+  }, []);
 
   async function signIn(data: auth.SignInRequest) {
     const response = await auth.signIn(data);

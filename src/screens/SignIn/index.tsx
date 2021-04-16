@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useAuth} from '../../contexts/auth';
 
@@ -8,7 +8,6 @@ import * as yup from 'yup';
 
 import {
   Container,
-  Logo,
   Form,
   FormEmail,
   FormPassword,
@@ -16,6 +15,8 @@ import {
   FormErrorContainer,
   FormErrorText,
 } from './styles';
+
+import Logo from '../../components/Logo';
 
 const schema = yup.object().shape({
   email: yup.string().email('Email inválido').required('Campo Obrigatório'),
@@ -27,15 +28,18 @@ const SignIn: React.FC = () => {
     resolver: yupResolver(schema),
   });
   const {signIn} = useAuth();
+  const [loading, setLoading] = useState(false);
 
   function handleSign(data) {
     clearErrors();
+    setLoading(true);
     signIn(data).catch(error => {
       setError('request', {
         type: 'SignIn',
         message: error.data?.non_field_errors[0],
       });
     });
+    setLoading(false);
   }
 
   return (
@@ -77,7 +81,9 @@ const SignIn: React.FC = () => {
           </FormErrorText>
         </FormErrorContainer>
 
-        <SubmitButton onPress={handleSubmit(handleSign)}>Sign In</SubmitButton>
+        <SubmitButton loading={loading} onPress={handleSubmit(handleSign)}>
+          Sign In
+        </SubmitButton>
         <FormErrorContainer>
           <FormErrorText>
             {errors.request && errors.request.message}

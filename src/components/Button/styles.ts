@@ -13,3 +13,8 @@ export const Text = styled.Text`
   font-weight: bold;
   font-size: 16px;
 `;
+
+export const Indicator = styled.ActivityIndicator.attrs({
+  size: 'small',
+  color: colors.white,
+})``;

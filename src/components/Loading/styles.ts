@@ -11,6 +11,5 @@ export const Container = styled.View`
 
 export const Indicator = styled.ActivityIndicator.attrs({
   size: 'large',
-})`
-  color: ${colors.background};
-`;
+  color: colors.white,
+})``;
